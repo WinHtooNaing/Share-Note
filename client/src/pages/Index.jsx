@@ -22,7 +22,9 @@ const Index = () => {
     <>
       <section className="flex gap-6 px-10 mt-10 flex-wrap">
         {!loading && notes.length > 0 ? (
-          notes.map((note) => <Note key={note._id} note={note} />)
+          notes.map((note) => (
+            <Note key={note._id} note={note} getNotes={getNotes} />
+          ))
         ) : (
           <div className="flex justify-center items-center w-full mt-40">
             <Watch

@@ -20,5 +20,6 @@ mongoose
     console.log("Connected to database && running on port 8000");
   })
   .catch((err) => {
-    console.log("Error Connection " + err);
+    console.log("Error Connection ");
+    console.log(err);
   });

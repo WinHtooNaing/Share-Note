@@ -50,10 +50,11 @@ const Details = () => {
                 <UserIcon className="w-4 h-4" /> {note.author}
               </p>
               <p className="flex items-center gap-1 font-medium text-sm text-gray-600">
-                <CalendarDaysIcon className="w-4 h-4" />{" "}
-                {formatISO9075(new Date(note.createdAt), {
-                  representation: "date",
-                })}
+                <CalendarDaysIcon className="w-4 h-4" />
+                {note.createdAt &&
+                  formatISO9075(new Date(note.createdAt), {
+                    representation: "date",
+                  })}
               </p>
             </div>
             <p className="text-base mt-2">{note.content}</p>
