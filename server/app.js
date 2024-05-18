@@ -6,6 +6,8 @@ const cors = require("cors");
 const app = express();
 
 const noteRoutes = require("./routes/note");
+const authRoutes = require("./routes/auth");
+
 const dotenv = require("dotenv").config();
 const multer = require("multer");
 
@@ -42,6 +44,7 @@ app.use(
 app.use(cors());
 
 app.use(noteRoutes);
+app.use(authRoutes);
 
 mongoose
   .connect(process.env.MONGO_URL)
