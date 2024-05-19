@@ -34,7 +34,7 @@ const Details = () => {
           />
         </div>
       ) : (
-        <section className="px-10 mt-10">
+        <section className="px-10 my-10">
           <div className="text-right">
             <Link
               to={"/"}
@@ -48,7 +48,7 @@ const Details = () => {
               <img
                 src={`${import.meta.env.VITE_API}/${note.cover_image}`}
                 alt={note.title}
-                className="my-10 h-64 w-full object-cover"
+                className="my-10 h-96 w-full object-cover"
               />
             )}
             <h3 className="text-3xl font-medium">{note.title}</h3>

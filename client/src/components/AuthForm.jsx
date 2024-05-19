@@ -1,11 +1,17 @@
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, Navigate } from "react-router-dom";
 import * as Yup from "yup";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const AuthForm = ({ isLogin }) => {
+  const [redirect, setRedirect] = useState(false);
+
   const initialValues = {
-    username: isLogin ? "login is the bar nyar" : "",
+    username: "",
     email: "",
     password: "",
   };
@@ -23,21 +29,59 @@ const AuthForm = ({ isLogin }) => {
   });
   const submitHandler = async (values) => {
     const { username, email, password } = values;
+    let END_POINT = `${import.meta.env.VITE_API}/register`;
     if (isLogin) {
-      //login codes
-    } else {
-      const response = await fetch(`${import.meta.env.VITE_API}/register`, {
-        method: "POST",
-        body: JSON.stringify({ username, email, password }),
-        headers: {
-          "Content-Type": "application/json",
-        },
+      END_POINT = `${import.meta.env.VITE_API}/login`;
+    }
+    const response = await fetch(END_POINT, {
+      method: "POST",
+      body: JSON.stringify({ username, email, password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(response);
+    const toastFire = (message) => {
+      toast.error(message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
       });
-      console.log(response);
+    };
+    if (response.status === 201 || response.status === 200) {
+      setRedirect(true);
+    } else if (response.status === 400) {
+      const data = await response.json();
+      const pickedMessage = data.errorMessage[0].msg;
+      toastFire(pickedMessage);
+    } else if (response.status === 401) {
+      const data = await response.json();
+      const pickedMessage = data.message;
+      toastFire(pickedMessage);
     }
   };
+  if (redirect) {
+    return <Navigate to={isLogin ? "/" : "/login"} />;
+  }
   return (
     <section>
+      <ToastContainer
+        position="top-right"
+        autoClose={500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="Light"
+      />
       <div className="flex items-center justify-between  ">
         <h1 className="text-2xl font-bold my-5 ">
           {isLogin ? "Login" : "Register"}
