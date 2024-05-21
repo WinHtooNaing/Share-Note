@@ -2,12 +2,16 @@ import { ArrowLeftIcon, ArrowUpTrayIcon } from "@heroicons/react/24/solid";
 import { Link, Navigate, useParams } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { UserContext } from "../contexts/UserContext";
+
 const NoteForm = ({ isCreate }) => {
+  const { token } = useContext(UserContext);
+
   const [redirect, setRedirect] = useState(false);
   const [oldNote, setOldNote] = useState({});
   const [previewImg, setPreviewImg] = useState(null);
@@ -89,6 +93,9 @@ const NoteForm = ({ isCreate }) => {
       // },
       // body: JSON.stringify(values),
       body: formData,
+      headers: {
+        Authorization: `Bearer ${token.token}`,
+      },
     });
 
     if (response.status === 201 || response.status === 200) {

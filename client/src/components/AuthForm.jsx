@@ -1,13 +1,16 @@
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import * as Yup from "yup";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { UserContext } from "../contexts/UserContext";
 
 const AuthForm = ({ isLogin }) => {
+  const { updatedToken } = useContext(UserContext);
+
   const [redirect, setRedirect] = useState(false);
 
   const initialValues = {
@@ -53,7 +56,11 @@ const AuthForm = ({ isLogin }) => {
         theme: "light",
       });
     };
-    if (response.status === 201 || response.status === 200) {
+    if (response.status === 201) {
+      setRedirect(true);
+    } else if (response.status === 200) {
+      const data = await response.json();
+      updatedToken(data);
       setRedirect(true);
     } else if (response.status === 400) {
       const data = await response.json();

@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Note from "../components/Note";
 import Plus from "../components/Plus";
 import { Watch } from "react-loader-spinner";
+import { UserContext } from "../contexts/UserContext";
 const Index = () => {
+  const { token } = useContext(UserContext);
+
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -13,7 +16,7 @@ const Index = () => {
     const response = await fetch(
       `${import.meta.env.VITE_API}/notes?page=${pageNo}`
     );
-    const { notes, totalNotes, totalPages } = await response.json();
+    const { notes, totalPages } = await response.json();
     setTotalPages(totalPages);
     setNotes(notes);
     setLoading(false);
@@ -74,9 +77,10 @@ const Index = () => {
               ariaLabel="watch-loading"
               visible={loading}
             />
+            {!loading && notes.length === 0 && <p>No Note</p>}
           </div>
         )}
-        <Plus />
+        {token && <Plus />}
       </section>
     </>
   );
