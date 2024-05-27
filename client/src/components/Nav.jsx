@@ -6,6 +6,7 @@ import { UserContext } from "../contexts/UserContext";
 const Nav = () => {
   const { token, updatedToken } = useContext(UserContext);
 
+  console.log(token);
   const logoutHandler = () => {
     updatedToken(null);
   };
@@ -40,6 +41,9 @@ const Nav = () => {
               >
                 Share
               </Link>
+              {
+                token && token.username && <p className="text-teal-600 text-md max-sm:hidden">{token.username}</p>
+              }
               <button
                 type="button"
                 className="text-teal-600 text-xl font-semibold hover:text-teal-700 font-mono"

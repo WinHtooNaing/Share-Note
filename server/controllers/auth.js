@@ -63,7 +63,7 @@ exports.login = async (req, res, next) => {
     );
     return res
       .status(200)
-      .json({ message: "Login Successfully", token, userId: userDoc._id });
+      .json({ message: "Login Successfully", token, userId: userDoc._id , username : userDoc.username});
   } catch (err) {
     console.log(err);
     return res.status(400).json({ message: err.message });

@@ -35,7 +35,7 @@ router.post(
 router.delete("/delete/:id", authMiddleware, noteController.deleteNote);
 
 // GET /edit/:id
-router.get("/edit/:id", authMiddleware, noteController.getOldNote);
+router.get("/edit/:id", noteController.getOldNote);
 
 // post /edit
 router.post("/edit", authMiddleware, noteController.updateNote);

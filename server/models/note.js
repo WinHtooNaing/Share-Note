@@ -16,11 +16,11 @@ const noteSchema = new Schema(
     cover_image: {
       type: String,
     },
-    // author: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "User",
-    //   required: true,
-    // },
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     timestamps: true,

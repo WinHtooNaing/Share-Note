@@ -11,7 +11,6 @@ import { UserContext } from "../contexts/UserContext";
 
 const NoteForm = ({ isCreate }) => {
   const { token } = useContext(UserContext);
-
   const [redirect, setRedirect] = useState(false);
   const [oldNote, setOldNote] = useState({});
   const [previewImg, setPreviewImg] = useState(null);
@@ -51,13 +50,18 @@ const NoteForm = ({ isCreate }) => {
     content: Yup.string()
       .min(5, "Content is too short!")
       .required("Content is required!"),
-    cover_image: Yup.mixed()
-      .nullable()
-      .test(
-        "FILE_FORMAT",
-        "File type is not supported!",
-        (value) => !value || SUPPORTED_FORMATS.includes(value.type)
-      ),
+      cover_image: Yup.mixed().when('isCreate', {
+        is: true,
+        then: Yup.mixed()
+          .nullable()
+          .test(
+            "FILE_FORMAT",
+            "File type is not supported!",
+            (value) => !value || SUPPORTED_FORMATS.includes(value.type)
+          ),
+
+      }),
+      
   });
 
   const handleImageChange = (e, setFieldValue) => {
@@ -85,13 +89,10 @@ const NoteForm = ({ isCreate }) => {
     formData.append("content", values.content);
     formData.append("cover_image", values.cover_image);
     formData.append("note_id", values.note_id);
+    
 
     const response = await fetch(API, {
       method: "POST",
-      // headers: {
-      //   "Content-Type": "application/json",
-      // },
-      // body: JSON.stringify(values),
       body: formData,
       headers: {
         Authorization: `Bearer ${token.token}`,
