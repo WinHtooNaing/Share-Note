@@ -13,9 +13,13 @@ const noteSchema = new Schema(
       required: true,
       minLength: 5,
     },
-    author: {
+    cover_image: {
       type: String,
-      default: "Anonymous",
+    },
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
   },
   {
