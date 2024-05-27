@@ -28,8 +28,7 @@ const Note = ({ note, getNotes }) => {
 
     });
     if (response.status === 204) {
-      getNotes();
-      toast.success("🦄 Wow so easy!", {
+      toast.error("Successfully Deleted!!", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -38,26 +37,27 @@ const Note = ({ note, getNotes }) => {
         draggable: true,
         progress: undefined,
         theme: "light",
-        transition: "Bounce",
       });
+      
+      getNotes();
+    
     }
   };
   return (
     <div className="w-full sm:w-2/5 border-t-4 border-t-teal-600 shadow-lg p-3 ">
       <div>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          transition:Bounce
-        />
+      <ToastContainer
+        position="top-right"
+        autoClose={500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="Light"
+      />
       </div>
       <h3 className="text-xl font-medium">{title}</h3>
       <p className="text-sm">{content.slice(0, 100)}...</p>

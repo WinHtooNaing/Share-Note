@@ -43,7 +43,6 @@ const AuthForm = ({ isLogin }) => {
         "Content-Type": "application/json",
       },
     });
-    console.log(response);
     const toastFire = (message) => {
       toast.error(message, {
         position: "top-right",
@@ -61,6 +60,7 @@ const AuthForm = ({ isLogin }) => {
     } else if (response.status === 200) {
       const data = await response.json();
       updatedToken(data);
+
       setRedirect(true);
     } else if (response.status === 400) {
       const data = await response.json();
@@ -102,7 +102,7 @@ const AuthForm = ({ isLogin }) => {
         validationSchema={AuthFormSchema}
         onSubmit={submitHandler}
       >
-        {({ errors, touched, values }) => (
+        {({ isSubmitting}) => (
           <Form>
             {!isLogin && (
               <div className="mb-3">
@@ -151,8 +151,9 @@ const AuthForm = ({ isLogin }) => {
             <button
               type="submit"
               className="bg-teal-600 text-white py-3 font-medium w-full  rounded-md mt-2"
+              disabled={isSubmitting}
             >
-              {isLogin ? "Login" : "Register"}
+              {isLogin ? `${isSubmitting ? "Loginning.." : "Login"}` : `${isSubmitting ? "Registering.." : "Register"}`}
             </button>
           </Form>
         )}
